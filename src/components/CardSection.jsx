@@ -1,6 +1,5 @@
-// ✅ CardSection.jsx (스크롤바 제거 포함)
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ 오류 해결: useNavigate import
+import { useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const sections = [
@@ -60,6 +59,7 @@ const CardSection = () => {
           <button className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 text-white p-2 rounded-full" onClick={() => scroll(sectionIndex, 'right')}>
             <FaChevronRight />
           </button>
+
           <div
             ref={(el) => (sliderRefs.current[sectionIndex] = el)}
             className="scrollbar-fix-container flex flex-nowrap gap-4 overflow-x-auto pr-16"
@@ -70,15 +70,19 @@ const CardSection = () => {
               return (
                 <div
                   key={idx}
-                  className="inline-block w-60 h-80 flex-shrink-0 overflow-hidden rounded-lg transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+                  className="relative w-60 h-80 flex-shrink-0 overflow-hidden rounded-lg cursor-pointer group"
                   onClick={() => {
                     if (isFirst) {
-                      sessionStorage.removeItem('played_도깨비'); // ✅ 자동 재생 초기화
+                      sessionStorage.removeItem('played_도깨비');
                       navigate('/log/도깨비', { state: { fromLocal: true } });
                     }
                   }}
                 >
-                  <img src={src} alt={`card-${idx}`} className="w-full h-full object-cover" />
+                  <img
+                    src={src}
+                    alt={`card-${idx}`}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
                 </div>
               );
             })}
