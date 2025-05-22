@@ -6,7 +6,7 @@ const sections = [
   {
     title: '믿고 보는 웨이브 에디터 추천작',
     images: [
-      'https://private-user-images.githubusercontent.com/194181560/445934244-3861967b-eaf8-4130-960f-63fa8e8a1afb.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDc4MDk2NDgsIm5iZiI6MTc0NzgwOTM0OCwicGF0aCI6Ii8xOTQxODE1NjAvNDQ1OTM0MjQ0LTM4NjE5NjdiLWVhZjgtNDEzMC05NjBmLTYzZmE4ZThhMWFmYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTIxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUyMVQwNjM1NDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1hMGFlODQ3ZTZkOGI3NGY5MGM4NzVjMWRhZmZjNDViZGE2MTMyZDRkOGE2YzExZDU4YWNmOGE1MGNmM2M0NDM4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.7B4SFLzbNeLfy-KlnszV0wZ_W312mL9AROu__LMz5io',
+      'https://github.com/rraassa/img/blob/main/goblin_2_3_ratio.png?raw=true',
       'https://image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202410/1728563706398328256.webp',
       'https://image.wavve.com/v1/thumbnails/480_720_20_80/meta/image/202411/1730971898240372044.webp',
       'https://image.wavve.com/v1/thumbnails/480_720_20_80/BMS/TVSeason/2022/K02_T2015-0294-Vertical_LogoY.webp',
