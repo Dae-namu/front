@@ -1,0 +1,26 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  background-color: black;
+}
+
+.plyr {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* 중앙에 큰 재생 버튼 위치 보장 */
+.plyr__control--overlaid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+/* 전체 컨트롤 바를 가운데 정렬 */
+.plyr--full-ui .plyr__controls {
+  justify-content: center;
+}
