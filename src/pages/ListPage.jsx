@@ -21,11 +21,13 @@ const ListPage = () => {
     }
   }, [fromLocal, navigate, titleId]);
 
-  const shortDesc =
-    '불멸의 삶을 끝내기 위해 인간 신부가 필요한 도깨비와 저승사자, 그리고 도깨비 신부를 자처하는 소녀의 운명적 로맨스...';
-  const fullDesc =
+  // ✅ 설명 1줄만 사용 + 글자수 기준 더보기 처리
+  const desc =
     '불멸의 삶을 끝내기 위해 인간 신부가 필요한 도깨비, 그와 기묘한 동거를 시작한 기억상실증 저승사자. 그런 그들 앞에 \'도깨비 신부\'라 주장하는 \'죽었어야 할 운명\'의 소녀가 나타나며 벌어지는 神비로운 낭만 설화';
 
+  const maxLength = 70;
+  const isLong = desc.length > maxLength;
+  const displayText = showFull || !isLong ? desc : desc.slice(0, maxLength) + '...';
   const episodes = [
     { title: '도깨비 1화', desc: '도깨비와의 첫 만남...', time: '1시간 10분', date: '2016.12.02', thumb: 'https://image.tving.com/ntgs/contents/CTC/caie/CAIE0400/com/20161125/E001149209.jpg/dims/resize/F_webp,600' },
     { title: '도깨비 2화', desc: '써니의 전생을 알게 된 저승사자...', time: '77분', date: '2016.12.03', thumb: 'https://image.tving.com/ntgs/contents/CTC/caie/CAIE0400/com/20161126/E001149588.jpg/dims/resize/F_webp,600' },
@@ -78,7 +80,6 @@ const ListPage = () => {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      {/* 상단 배경 및 정보 */}
       <div className="relative h-[500px] bg-cover bg-center" style={{ backgroundImage: 'url(https://blog.kakaocdn.net/dn/V46Al/btsJMxTCqPc/ycNsIKmfKEjkRFYn2nKi61/img.png)' }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-80" />
         <div className="absolute bottom-10 left-6 z-10 max-w-3xl">
@@ -87,10 +88,12 @@ const ListPage = () => {
             시즌 1개 · <span className="text-yellow-400">15</span>세 · 드라마
           </p>
           <p className="text-sm mt-2">
-            {showFull ? fullDesc : shortDesc}{' '}
-            <button className="underline text-blue-400" onClick={() => setShowFull(!showFull)}>
-              {showFull ? '닫기' : '더보기'}
-            </button>
+            {displayText}{' '}
+            {isLong && (
+              <button className="underline text-blue-400" onClick={() => setShowFull(!showFull)}>
+                {showFull ? '닫기' : '더보기'}
+              </button>
+            )}
           </p>
           <div className="flex gap-4 mt-4 items-center">
             <button className="bg-blue-600 px-4 py-2 rounded-md text-sm font-semibold">로그인</button>
