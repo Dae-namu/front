@@ -21,13 +21,13 @@ const ListPage = () => {
     }
   }, [fromLocal, navigate, titleId]);
 
-  // ✅ 설명 1줄만 사용 + 글자수 기준 더보기 처리
   const desc =
     '불멸의 삶을 끝내기 위해 인간 신부가 필요한 도깨비, 그와 기묘한 동거를 시작한 기억상실증 저승사자. 그런 그들 앞에 \'도깨비 신부\'라 주장하는 \'죽었어야 할 운명\'의 소녀가 나타나며 벌어지는 神비로운 낭만 설화';
 
   const maxLength = 70;
   const isLong = desc.length > maxLength;
   const displayText = showFull || !isLong ? desc : desc.slice(0, maxLength) + '...';
+
   const episodes = [
     { title: '도깨비 1화', desc: '도깨비와의 첫 만남...', time: '1시간 10분', date: '2016.12.02', thumb: 'https://image.tving.com/ntgs/contents/CTC/caie/CAIE0400/com/20161125/E001149209.jpg/dims/resize/F_webp,600' },
     { title: '도깨비 2화', desc: '써니의 전생을 알게 된 저승사자...', time: '77분', date: '2016.12.03', thumb: 'https://image.tving.com/ntgs/contents/CTC/caie/CAIE0400/com/20161126/E001149588.jpg/dims/resize/F_webp,600' },
@@ -45,15 +45,6 @@ const ListPage = () => {
     { title: '도깨비 14화', desc: '검을 뽑고 소멸을 택한 도깨비...', time: '75분', date: '2017.01.20', thumb: 'https://image.tving.com/ntgs/contents/CTC/caie/CAIE0400/com/20170107/E001163570.jpg/dims/resize/F_webp,600' },
     { title: '도깨비 15화', desc: '기억을 되찾는 은탁...', time: '63분', date: '2017.01.21', thumb: 'https://image.tving.com/ntgs/contents/CTC/caie/CAIE0400/com/20170114/E001165755.jpg/dims/resize/F_webp,600' },
     { title: '도깨비 16화', desc: '마지막 이야기, 재회의 기적...', time: '73분', date: '2017.01.21', thumb: 'https://image.tving.com/ntgs/contents/CTC/caie/CAIE0400/com/20170114/E001165756.jpg/dims/resize/F_webp,600' },
-  ];
-
-  
-  const teasers = [
-    {
-      title: '2024 티저 2',
-      src: 'https://navertv-cjenm-c.smartmediarep.com/smc/navertv/multi/eng/C01_80631/2f636a656e6d2f434c49502f45412f423132303136313933312f423132303136313933315f455049303030315f31325f7433332e6d7034/0-0-0/content.mp4?solexpire=1747916000&solpathlen=149&soltoken=7f874fb3016b602af174963ddc8030b4&soltokenrule=c29sZXhwaXJlfHNvbHBhdGhsZW58c29sdXVpZA==&soluriver=2&soluuid=3586b02a-0924-407c-8c23-b1b7ee6874ef&itemtypeid=33&tid=d3d2a449-8a45-4de5-b3e7-c2a2a1a85148',
-      thumb: 'https://cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/FZ7SILUQP7HBSPSJNTLXNZNDAE.jpg'
-    }
   ];
 
   const recommendations = [
@@ -110,12 +101,11 @@ const ListPage = () => {
       <div className="px-6 pt-6 border-b border-gray-700">
         <ul className="flex gap-6 text-sm">
           <li className={`${tab === 'episode' ? 'border-b-2 border-blue-500' : 'text-gray-400'} pb-2 cursor-pointer`} onClick={() => setTab('episode')}>에피소드</li>
-          <li className={`${tab === 'teaser' ? 'border-b-2 border-blue-500' : 'text-gray-400'} pb-2 cursor-pointer`} onClick={() => setTab('teaser')}>관련영상</li>
           <li className={`${tab === 'recommend' ? 'border-b-2 border-blue-500' : 'text-gray-400'} pb-2 cursor-pointer`} onClick={() => setTab('recommend')}>추천</li>
         </ul>
       </div>
 
-      {/* 본문 컨텐츠 */}
+      {/* 본문 */}
       <div className="px-6 py-6 space-y-6">
         {tab === 'episode' && episodes.map((ep, idx) => (
           <div key={idx} className="flex gap-4 hover:bg-gray-800 transition-all p-4 rounded cursor-pointer">
@@ -127,17 +117,6 @@ const ListPage = () => {
             </div>
           </div>
         ))}
-
-        {tab === 'teaser' && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {teasers.map((teaser, idx) => (
-              <div key={idx} className="cursor-pointer hover:scale-105 transition-transform" onClick={() => window.open(teaser.src, '_blank')}>
-                <img src={teaser.thumb} alt={`teaser-${idx}`} className="w-full h-56 object-cover rounded" />
-                <p className="mt-1 text-sm text-center">{teaser.title}</p>
-              </div>
-            ))}
-          </div>
-        )}
 
         {tab === 'recommend' && (
           <>
@@ -151,7 +130,13 @@ const ListPage = () => {
               </button>
               <div ref={sliderRef} className="flex gap-4 overflow-x-auto pr-6 scrollbar-hide [&::-webkit-scrollbar]:hidden">
                 {recommendations.map((url, idx) => (
-                  <img key={idx} src={url} alt={`rec-${idx}`} className="w-60 h-80 object-cover rounded flex-shrink-0 hover:scale-105 transition-transform cursor-pointer" />
+                  <div key={idx} className="w-60 h-80 flex-shrink-0 overflow-hidden rounded relative cursor-pointer group">
+                    <img
+                      src={url}
+                      alt={`rec-${idx}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 block"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
