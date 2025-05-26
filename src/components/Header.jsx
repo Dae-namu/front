@@ -15,16 +15,15 @@ const Header = () => {
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setIsHovered(false);
-    }, 100); // ✨ 300ms 후 닫힘
+    }, 100);
   };
 
   return (
     <header className="flex justify-between items-center px-6 py-4 bg-black text-white relative z-50">
       <div className="text-2xl font-bold cursor-pointer" onClick={() => navigate('/')}>
-        Davve
+        <span className="text-green-500">D</span>avve
       </div>
 
-      {/* 전체 hover 감지 박스 */}
       <div
         className="relative"
         onMouseEnter={handleMouseEnter}
@@ -32,7 +31,6 @@ const Header = () => {
       >
         <FaUserCircle className="text-3xl cursor-pointer" />
 
-        {/* 드롭다운 메뉴 */}
         <div
           className={`absolute right-0 mt-2 w-48 bg-gray-900 text-sm text-white shadow-lg rounded-md py-2 z-50 transition-all duration-200 ${
             isHovered ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
