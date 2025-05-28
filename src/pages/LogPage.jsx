@@ -9,13 +9,28 @@ const LogPage = () => {
 
   useEffect(() => {
     const logClick = async () => {
-      await fetch(`/api/log?titleId=${titleId}`); // optional
+      const state = location.state;
+      if (!state || !state.episodes || state.episodes.length === 0) {
+        console.warn('에피소드 정보가 없습니다. 바로 PlayPage로 이동합니다.');
+        navigate(`/play/1`, { state: { streamUrl: '' } });
+        return;
+      }
+
+      const firstEpisode = state.episodes.find((ep) => ep.id === 1);
+      const streamUrl = firstEpisode?.streamUrl || '';
+
+      await fetch(`/api/log?titleId=${titleId}`); // optional logging
+
       setTimeout(() => {
         navigate(`/list/${titleId}`, {
-          state: location.state,
+          state: {
+            ...state,
+            streamUrl,
+          },
         });
       }, 1000);
     };
+
     logClick();
   }, [titleId, navigate, location.state]);
 
