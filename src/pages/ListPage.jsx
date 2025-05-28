@@ -14,7 +14,7 @@ const ListPage = () => {
   useEffect(() => {
     const fetchDrama = async () => {
       try {
-        const res = await fetch(`/api/dramas/${id}`);
+        const res = await fetch(`/dramas/${id}`);
         const data = await res.json();
         setDrama(data);
 

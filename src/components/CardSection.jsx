@@ -11,7 +11,7 @@ const CardSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/dramas');
+        const response = await fetch('/dramas');
         const data = await response.json();
 
         const updatedSections = [
