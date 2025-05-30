@@ -19,7 +19,7 @@ function App() {
             <CardSection />
           </>
         } />
-        <Route path="/log/:titleId" element={<LogPage />} />
+        <Route path="/log/:titleId" element={<ListPage />} />
         <Route path="/list/:titleId" element={<ListPage />} />
         <Route path="/play/:episodeId" element={<PlayPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />

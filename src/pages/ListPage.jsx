@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const ListPage = () => {
-  const { id } = useParams();
+  const { titleId } = useParams();
   const navigate = useNavigate();
   const [drama, setDrama] = useState(null);
   const [liked, setLiked] = useState(false);
@@ -14,22 +14,24 @@ const ListPage = () => {
   useEffect(() => {
     const fetchDrama = async () => {
       try {
-        const res = await fetch(`/dramas/${id}`);
+        const res = await fetch(`/dramas/${titleId}`);
         const data = await res.json();
+
         setDrama(data);
 
-        // 자동 재생
-        const alreadyPlayed = sessionStorage.getItem(`played_${id}`);
+        const alreadyPlayed = sessionStorage.getItem(`played_${titleId}`);
         if (!alreadyPlayed && data.episodes?.length > 0) {
-          sessionStorage.setItem(`played_${id}`, 'true');
+          sessionStorage.setItem(`played_${titleId}`, 'true');
           const firstEpisode = data.episodes.find((ep) => ep.id === 1);
           if (firstEpisode) {
-            navigate(`/play/${firstEpisode.id}`, {
-              state: {
-                episode: firstEpisode,
-                episodes: data.episodes,
-              },
-            });
+            setTimeout(() => {
+              navigate(`/play/${firstEpisode.id}`, {
+                state: {
+                  episode: firstEpisode,
+                  episodes: data.episodes,
+                },
+              });
+            }, 1000);
           }
         }
       } catch (error) {
@@ -38,15 +40,19 @@ const ListPage = () => {
     };
 
     fetchDrama();
-  }, [id, navigate]);
+  }, [titleId, navigate]);
 
   if (!drama) return <div className="text-white p-6">로딩 중...</div>;
 
   const { title, description, backgroundImageUrl, episodes = [] } = drama;
 
   const maxLength = 70;
-  const isLong = description.length > maxLength;
-  const displayText = showFull || !isLong ? description : description.slice(0, maxLength) + '...';
+  const isLong = !!description && description.length > maxLength;
+  const displayText = !description
+    ? ''
+    : showFull || !isLong
+    ? description
+    : description.slice(0, maxLength) + '...';
 
   const handleScroll = (direction) => {
     if (sliderRef.current) {
@@ -72,10 +78,7 @@ const ListPage = () => {
           <p className="text-sm mt-2">
             {displayText}{' '}
             {isLong && (
-              <button
-                className="underline text-blue-400"
-                onClick={() => setShowFull(!showFull)}
-              >
+              <button className="underline text-blue-400" onClick={() => setShowFull(!showFull)}>
                 {showFull ? '닫기' : '더보기'}
               </button>
             )}

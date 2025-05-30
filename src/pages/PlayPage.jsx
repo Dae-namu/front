@@ -17,25 +17,48 @@ const PlayPage = () => {
 
   const {
     title = '제목 없음',
-    episodeTitle = '에피소드 제목 없음',
-    streamUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    episodes = []
+    episodes = [],
   } = location.state || {};
 
+  // 현재 에피소드 찾기
+  const currentEpisode = episodes.find(ep => String(ep.id) === episodeId) || {};
+  const {
+    title: episodeTitle = '에피소드 제목 없음',
+    streamUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+  } = currentEpisode;
+
   useEffect(() => {
-    if (videoRef.current) {
-      const player = new Plyr(videoRef.current, {
+    if (!videoRef.current) return;
+
+    const video = videoRef.current;
+    playerRef.current?.destroy(); // 기존 플레이어 제거
+
+    // src 직접 설정 (DOM 재생성 방지)
+    video.src = streamUrl;
+
+    // 플레이어 설정 및 자동 재생
+    setTimeout(() => {
+      const player = new Plyr(video, {
         controls: [
           'play-large', 'rewind', 'play', 'fast-forward', 'progress',
           'current-time', 'mute', 'volume', 'settings', 'fullscreen'
         ],
         autoplay: true,
+        muted: true,
         keyboard: { global: true },
         ratio: '16:9',
       });
+
       playerRef.current = player;
-      return () => player.destroy();
-    }
+
+      player.play().catch(err => {
+        console.warn('자동 재생 실패:', err);
+      });
+    }, 100);
+
+    return () => {
+      playerRef.current?.destroy();
+    };
   }, [streamUrl]);
 
   const resetTimer = () => {
@@ -66,9 +89,8 @@ const PlayPage = () => {
         className="plyr plyr--full-ui w-full h-full object-contain"
         controls
         playsInline
-      >
-        <source src={streamUrl} type="video/mp4" />
-      </video>
+        autoPlay
+      />
 
       {showControls && (
         <div className="absolute top-4 left-4 z-50 pointer-events-auto">
@@ -115,8 +137,6 @@ const PlayPage = () => {
                 onClick={() => navigate(`/play/${ep.id}`, {
                   state: {
                     title,
-                    episodeTitle: ep.title,
-                    streamUrl: ep.streamUrl,
                     episodes
                   }
                 })}
@@ -124,8 +144,8 @@ const PlayPage = () => {
                 <img src={ep.image || 'https://via.placeholder.com/160x90'} alt={ep.title} className="w-32 h-20 object-cover rounded" />
                 <div className="flex flex-col justify-center text-sm">
                   <div className="font-semibold text-base">{ep.title}</div>
-                  <div className="text-gray-400">{ep.date} · {ep.time}</div>
-                  <div className="text-gray-300 line-clamp-2">{ep.desc}</div>
+                  <div className="text-gray-400">{ep.broadcastDate} · {ep.time}</div>
+                  <div className="text-gray-300 line-clamp-2">{ep.episodeDescription}</div>
                 </div>
               </div>
             ))}
